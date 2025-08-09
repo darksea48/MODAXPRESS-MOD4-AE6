@@ -25,7 +25,7 @@ def mostrar_menu_principal():
                 nuevo_producto.agregar_producto(nombre, precio, cantidad, talla)
             elif opcion == '2':
                 inventario.ver_inventario()
-                
+            
             elif opcion == '3':
                 leer datos de un producto especifico()
                 busqueda = input ("Ingresar producto a buscar")
