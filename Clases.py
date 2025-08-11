@@ -27,9 +27,16 @@ class Producto():
         finally:
             f.close()
     
-    def modificar_producto(self):
+    def modificar_producto(self, dato):
         while True:
             try:
+                prod_seleccionado = Producto()
+                prod_seleccionado.buscar_producto(dato)
+                if prod_seleccionado:
+                    print(f"Producto encontrado: {prod_seleccionado}")
+                else:
+                    print("Producto no encontrado.")
+                    break
                 print("--- MODIFICAR PRODUCTO ---")
                 print("1. Modificar nombre")
                 print("2. Modificar precio")
@@ -81,6 +88,38 @@ class Producto():
                         print("Opción inválida. Por favor, selecciona una opción válida.")
                     elif nuevo_try.lower() == 's':
                         break
+    
+    def eliminar_producto(self, id):
+        try:
+            with open(archivo, 'r', encoding='utf-8') as f:
+                lineas = f.readlines()
+            with open(archivo, 'w', encoding='utf-8') as f:
+                for linea in lineas:
+                    if linea.startswith(str(id)):
+                        continue
+                    f.write(linea)
+            print("Producto eliminado correctamente.")
+        except FileNotFoundError:
+            print("El archivo de productos no existe. Crea un producto primero.")
+        except IOError:
+            print("Error al leer el archivo de productos.")
+        finally:
+            f.close()
+    
+    def ver_producto(self, id):
+        try:
+            with open(archivo, 'r', encoding='utf-8') as f:
+                for linea in f:
+                    if linea.startswith(str(id)):
+                        print(linea)
+                        return linea
+            print("Producto no encontrado.")
+        except FileNotFoundError:
+            print("El archivo de productos no existe. Crea un producto primero.")
+        except IOError:
+            print("Error al leer el archivo de productos.")
+        finally:
+            f.close()
 
 class Inventario(Producto):
     try:
@@ -96,19 +135,4 @@ class Inventario(Producto):
         self.productos = []
     
     def ver_inventario(self):
-        try:
-            with open(archivo, 'r', encoding='utf-8') as f:
-                productos = f.readlines()
-                if not productos:
-                    print("No hay productos en el inventario.")
-                    return
-                print("\n--- INVENTARIO ---")
-                for i, productos in enumerate(productos):
-                    print(f"{i+1}. {productos.strip()}")
-                print("-------------------------\n")
-        except FileNotFoundError:
-            print("El archivo de recetas no existe. Crea una receta primero.")
-        except IOError:
-            print("Error al leer el archivo de recetas.")
-        finally:
-            f.close()
+        cargar_datos(archivo)
