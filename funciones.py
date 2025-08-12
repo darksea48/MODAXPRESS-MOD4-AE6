@@ -16,10 +16,8 @@ def cargar_datos(archivo: str) -> list:
             return lineas
     except FileNotFoundError:
         print("El archivo de productos no existe.")
-        return []
     except IOError:
         print("Error al abrir el archivo")
-        return []
 
 def guardar_datos(archivo: str, productos: list):
     try:

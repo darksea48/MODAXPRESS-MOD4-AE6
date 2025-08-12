@@ -32,7 +32,7 @@ class Producto():
             lineas = cargar_datos(archivo)
             encontrado = False
             for linea in lineas:
-                partes = linea.split(',')
+                partes = linea.strip().split(',')
                 if partes[0] == str(dato) or partes[1].lower() == str(dato).lower():
                     print("".center(50, '-'))
                     print(f"ID: {partes[0]} - Nombre: {partes[1]} - Talla: {partes[4]}")
@@ -47,7 +47,6 @@ class Producto():
             print("Error al leer el archivo de productos.")
 
     def modificar_producto(self, dato_busqueda):
-        # 1. Cargar todos los productos del archivo
         try:
             lineas = cargar_datos(archivo)
             if not lineas:
@@ -56,25 +55,18 @@ class Producto():
         except IOError:
             print("Error al leer el archivo de productos.")
             return
-
         producto_encontrado = None
         indice_producto = -1
-
-        # 2. Buscar el producto por ID o nombre
         for i, linea in enumerate(lineas):
             partes = linea.split(',')
             if partes[0] == str(dato_busqueda) or partes[1].lower() == str(dato_busqueda).lower():
                 producto_encontrado = partes
                 indice_producto = i
                 break
-
         if producto_encontrado is None:
             print(f"Producto con ID o nombre '{dato_busqueda}' no encontrado.")
             return
-
         print(f"Producto encontrado: {producto_encontrado[1]}")
-
-        # 3. Bucle para modificar los datos en memoria
         while True:
             print("\n--- ¿Qué deseas modificar? ---")
             print("1. Nombre")
